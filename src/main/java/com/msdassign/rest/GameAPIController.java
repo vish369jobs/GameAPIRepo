@@ -2,7 +2,9 @@ package com.msdassign.rest;
 
 import com.msdassign.domain.PointsEntity;
 import com.msdassign.dto.TransferPointsDTO;
+import lombok.Synchronized;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import com.msdassign.service.GameAPIService;
 
@@ -30,6 +32,8 @@ public class GameAPIController {
     }
 
     @PutMapping("/transferPts")
+    @Synchronized
+    @Transactional
     public void transferPoints(@RequestBody TransferPointsDTO transferPtsDto) {
         PointsEntity winnerEnt = gameService.getEntitiyById(transferPtsDto.getWinnerUserId());
         winnerEnt.setPoints(winnerEnt.getPoints() + transferPtsDto.getPoints2Transfer());
